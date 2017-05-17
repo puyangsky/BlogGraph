@@ -47,23 +47,38 @@ class Crawler:
         if paginations:
             print paginations
 
-    def parse_single_page(self):
+    def parse_page_url(self):
         self.parse_url()
         if len(self.urls) == 0:
-            print "Fuck"
             return
-        print "Begin"
-        id = 1
-        post_urls = set([])
+        uid = 1
+        page_urls = set([])
         for single_url in self.urls:
             page = self.download(single_url)
             html = BeautifulSoup(page, "lxml")
             posts = html.select('a[class="postTitle2"]')
             for post in posts:
                 temp_url = post['href']
-                post_urls.add(str(temp_url))
-                print str(id) + "\t" + temp_url
-                id += 1
+                page_urls.add(str(temp_url))
+        for i in page_urls:
+            # print str(uid) + "\t" + i
+            uid += 1
+        return uid, list(page_urls)
+
+    def parse_single_page(self):
+        page_count, page_urls = self.parse_page_url()
+        if page_count == 0:
+            return
+        # for page_url in page_urls:
+        page_url = page_urls[0]
+        content = self.download(page_url)
+        html = BeautifulSoup(content, "lxml")
+        # print html.prettify()
+        bodys = html.select('div[id="cnblogs_post_body"]')
+        for body in bodys:
+            print body
+            # TODO 获取p、h1-h6
+
 
 if __name__ == '__main__':
     c = Crawler("puyangsky")
