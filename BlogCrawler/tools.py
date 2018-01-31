@@ -12,10 +12,12 @@ import re
 
 # 处理页面标签类
 class Tool:
-    # 将超链接广告剔除
     def __init__(self):
         pass
 
+    # 将代码剔除
+    removeCode = re.compile('<code>.*?</code>', re.S)
+    # 将超链接广告剔除
     removeADLink = re.compile('<div class="link_layer.*?</div>')
     # 去除img标签,1-7位空格,&nbsp;
     removeImg = re.compile('<img.*?>| {1,7}|&nbsp;')
@@ -31,8 +33,11 @@ class Tool:
     removeExtraTag = re.compile('<.*?>')
     # 将多行空行删除
     removeNoneLine = re.compile('\n+')
+    replaceGt = re.compile('&gt')
+    replaceLt = re.compile('&lt')
 
     def replace(self, x):
+        x = re.sub(self.removeCode, "", x)
         x = re.sub(self.removeADLink, "", x)
         x = re.sub(self.removeImg, "", x)
         x = re.sub(self.removeAddr, "", x)
@@ -41,5 +46,7 @@ class Tool:
         x = re.sub(self.replaceBR, "\n", x)
         x = re.sub(self.removeExtraTag, "", x)
         x = re.sub(self.removeNoneLine, "\n", x)
+        x = re.sub(self.replaceGt, ">", x)
+        x = re.sub(self.replaceLt, "<", x)
         # strip()将前后多余内容删除
         return x.strip()

@@ -107,4 +107,3 @@ class Crawler:
 if __name__ == '__main__':
     c = Crawler("puyangsky")
     c.parse_urls()
-    # c.parse_single_page("http://www.cnblogs.com/puyangsky/p/7545291.html")
