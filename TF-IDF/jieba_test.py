@@ -15,6 +15,7 @@ def test():
         for tag in tags:
             print("tag: %s\t\t weight: %f" % (tag[0], tag[1]))
 
+
 if __name__ == '__main__':
     test()
     # seg_list = jieba.cut("我来到北京清华大学", cut_all=True)
